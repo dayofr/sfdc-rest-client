@@ -5,6 +5,7 @@ namespace Dayofr\Tests\Services\Data;
 use Dayofr\Authentication\LoginData;
 use Dayofr\Authentication\PasswordAuthentication;
 use Dayofr\Client\Curl;
+use Dayofr\Services\Data\Query;
 use Dotenv\Dotenv;
 use PHPUnit\Framework\TestCase;
 
