@@ -3,5 +3,6 @@ php:
   - '7.4'
 
 script:
+  - cp .env.example .env
   - composer install
   - vendor/bin/phpunit
