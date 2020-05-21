@@ -46,6 +46,4 @@ class LoginData
         $this->baseUrl = $baseUrl;
         return $this;
     }
-
-
 }

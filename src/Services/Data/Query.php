@@ -7,7 +7,6 @@ use Dayofr\Responses\QueryResult;
 
 class Query
 {
-
     private ClientInterface $client;
 
     public function __construct(ClientInterface $client)

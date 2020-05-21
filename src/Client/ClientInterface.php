@@ -17,5 +17,4 @@ interface ClientInterface
     public function doLogin(LoginData $loginData) : \stdClass;
 
     public function setAuthenticationInterface(?AuthenticationInterface $authenticationInterface): ClientInterface;
-
 }

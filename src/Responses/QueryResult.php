@@ -22,7 +22,8 @@ class QueryResult
         $this->nextRecordsUrl = $res->nextRecordsUrl ?? '';
     }
 
-    public function addResult(string $response) : void {
+    public function addResult(string $response) : void
+    {
         $res = json_decode($response);
         $this->done = $res->done;
         $this->records = array_merge($this->records, $res->records);
@@ -51,5 +52,4 @@ class QueryResult
     {
         return $this->nextRecordsUrl;
     }
-
 }

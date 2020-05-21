@@ -21,8 +21,9 @@ class Curl implements ClientInterface
         return $this;
     }
 
-    public function get(string $url, array $params = null) {
-        if($this->authenticationInterface === null) {
+    public function get(string $url, array $params = null)
+    {
+        if ($this->authenticationInterface === null) {
             return "";
         }
         $request_headers = [
@@ -33,7 +34,7 @@ class Curl implements ClientInterface
         curl_setopt($ch, CURLOPT_HTTPGET, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $request_headers);
 
-        if($params !== null && is_array($params)) {
+        if ($params !== null && is_array($params)) {
             $params = http_build_query($params);
         } else {
             $params = "";
@@ -41,7 +42,7 @@ class Curl implements ClientInterface
         $url = "{$this->authenticationInterface->getInstanceUrl()}{$url}?{$params}";
 
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER , true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $response = curl_exec($ch);
 
@@ -72,11 +73,10 @@ class Curl implements ClientInterface
 
         curl_close($ch);
 
-        if(is_bool($ret)) {
+        if (is_bool($ret)) {
             return new \stdClass();
         }
 
         return json_decode($ret);
     }
-
 }

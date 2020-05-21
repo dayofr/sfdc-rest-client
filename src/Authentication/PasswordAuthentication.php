@@ -3,12 +3,10 @@
 
 namespace Dayofr\Authentication;
 
-
 use Dayofr\Client\ClientInterface;
 
 class PasswordAuthentication implements AuthenticationInterface
 {
-
     private string $accessToken;
 
     private string $instanceUrl;
