@@ -14,7 +14,7 @@ interface ClientInterface
      */
     public function get(string $url, array $params = null);
 
-    public function doLogin(LoginData $loginData);
+    public function doLogin(LoginData $loginData) : \stdClass;
 
     public function setAuthenticationInterface(?AuthenticationInterface $authenticationInterface): ClientInterface;
 

@@ -11,6 +11,7 @@ script:
   - cp .env.example .env
   - composer install
   - vendor/bin/phpunit --coverage-clover=coverage.xml
+  - vendor/bin/phpstan analyse src --level max
 
 after_success:
   # Submit coverage report to https://codecov.io

@@ -6,6 +6,9 @@ class QueryResult
 {
     private int $totalSize;
     private bool $done;
+    /**
+     * @var array<\stdClass>
+     */
     private array $records;
     private string $nextRecordsUrl;
 
@@ -36,6 +39,9 @@ class QueryResult
         return $this->done;
     }
 
+    /**
+     * @return array<\stdClass>
+     */
     public function getRecords(): array
     {
         return $this->records;

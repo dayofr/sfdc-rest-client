@@ -20,7 +20,7 @@ class PasswordAuthentication implements AuthenticationInterface
         $this->client = $client;
     }
 
-    public function doLogin(LoginData $loginData)
+    public function doLogin(LoginData $loginData) : void
     {
         $ret = $this->client->doLogin($loginData);
 
@@ -28,8 +28,6 @@ class PasswordAuthentication implements AuthenticationInterface
         $this->instanceUrl = $ret->instance_url;
 
         $this->client->setAuthenticationInterface($this);
-
-        return $ret;
     }
 
     public function getAccessToken() : string

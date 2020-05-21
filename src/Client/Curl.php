@@ -22,6 +22,9 @@ class Curl implements ClientInterface
     }
 
     public function get(string $url, array $params = null) {
+        if($this->authenticationInterface === null) {
+            return "";
+        }
         $request_headers = [
             'Authorization: Bearer ' . $this->authenticationInterface->getAccessToken(),
         ];
@@ -32,6 +35,8 @@ class Curl implements ClientInterface
 
         if($params !== null && is_array($params)) {
             $params = http_build_query($params);
+        } else {
+            $params = "";
         }
         $url = "{$this->authenticationInterface->getInstanceUrl()}{$url}?{$params}";
 
@@ -45,7 +50,7 @@ class Curl implements ClientInterface
         return $response;
     }
 
-    public function doLogin(LoginData $loginData)
+    public function doLogin(LoginData $loginData) : \stdClass
     {
         $login_data = [
             'grant_type' => $loginData->grantType,
@@ -66,6 +71,10 @@ class Curl implements ClientInterface
         $ret = curl_exec($ch);
 
         curl_close($ch);
+
+        if(is_bool($ret)) {
+            return new \stdClass();
+        }
 
         return json_decode($ret);
     }
