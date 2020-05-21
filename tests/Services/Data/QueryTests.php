@@ -11,16 +11,17 @@ use PHPUnit\Framework\TestCase;
 
 class QueryTests extends TestCase
 {
+
+    private static Curl $curl;
+
     /**
      * @beforeClass
      */
-    public static function setUpClass() {
-        $dotenv = Dotenv::createImmutable(__DIR__.'/../../../');
-        $dotenv->load();
-    }
-
-    public function testSelectSimple(): void
+    public static function setUpClass()
     {
+        $dotenv = Dotenv::createImmutable(__DIR__ . '/../../../');
+        $dotenv->load();
+
         $loginData = (new LoginData())
             ->setClientId(getenv('sfdc_client_id'))
             ->setClientSecret(getenv('sfdc_client_secret'))
@@ -28,12 +29,15 @@ class QueryTests extends TestCase
             ->setPassword(getenv('sfdc_password'))
             ->setUsername(getenv('sfdc_username'));
 
-        $curl = new Curl(null);
+        self::$curl = new Curl(null);
 
-        $c = new PasswordAuthentication($curl);
+        $c = new PasswordAuthentication(self::$curl);
         $c->doLogin($loginData);
+    }
 
-        $q = new Query($curl);
+    public function testSelectSimple(): void
+    {
+        $q = new Query(self::$curl);
         $r1 = $q->get("SELECT Id FROM Task");
         self::assertFalse($r1->isDone());
 
@@ -47,21 +51,10 @@ class QueryTests extends TestCase
 
     public function testSelectWithRelation(): void
     {
-        $loginData = (new LoginData())
-            ->setClientId(getenv('sfdc_client_id'))
-            ->setClientSecret(getenv('sfdc_client_secret'))
-            ->setGrantType("password")
-            ->setPassword(getenv('sfdc_password'))
-            ->setUsername(getenv('sfdc_username'));
-
-        $curl = new Curl(null);
-
-        $c = new PasswordAuthentication($curl);
-        $c->doLogin($loginData);
-
-        $q = new Query($curl);
+        $q = new Query(self::$curl);
         $r = $q->get("SELECT Id,Name,Profile.Name FROM User WHERE Name = 'Security User' LIMIT 1");
         $u = $r->getRecords()[0];
-        self:self::assertEquals('Analytics Cloud Security User', $u->Profile->Name);
+        self:
+        self::assertEquals('Analytics Cloud Security User', $u->Profile->Name);
     }
 }
