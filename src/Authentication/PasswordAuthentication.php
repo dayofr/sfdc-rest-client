@@ -4,6 +4,7 @@
 namespace Dayofr\Authentication;
 
 use Dayofr\Client\ClientInterface;
+use Dayofr\Exception\SfdcAuthException;
 
 class PasswordAuthentication implements AuthenticationInterface
 {
@@ -18,10 +19,17 @@ class PasswordAuthentication implements AuthenticationInterface
         $this->client = $client;
     }
 
+    /**
+     * @param LoginData $loginData
+     * @throws SfdcAuthException
+     */
     public function doLogin(LoginData $loginData) : void
     {
         $ret = $this->client->doLogin($loginData);
 
+        if (isset($ret->error)) {
+            throw new SfdcAuthException($ret->error);
+        }
         $this->accessToken = $ret->access_token;
         $this->instanceUrl = $ret->instance_url;
 
