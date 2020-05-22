@@ -55,6 +55,7 @@ class Query
      */
     public function explain(string $query)
     {
-        return $this->client->get('/services/data/v48.0/query', ['explain' => $query]);
+        $response =  $this->client->get('/services/data/v48.0/query', ['explain' => $query]);
+        return json_decode($response);
     }
 }

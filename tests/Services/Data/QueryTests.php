@@ -56,7 +56,31 @@ class QueryTests extends TestCase
         $q = new Query(self::$curl);
         $r = $q->get("SELECT Id,Name,Profile.Name FROM User WHERE Name = 'Security User' LIMIT 1");
         $u = $r->getRecords()[0];
-        self:
         self::assertEquals('Analytics Cloud Security User', $u->Profile->Name);
+    }
+
+    public function testSelectWithCount(): void
+    {
+        $q = new Query(self::$curl);
+        $r = $q->get("SELECT LeadSource, COUNT(Name) FROM Lead GROUP BY LeadSource");
+        $u = $r->getRecords()[0];
+        self::assertIsNumeric($u->expr0);
+    }
+
+    public function testSelectWithCountAs(): void
+    {
+        $q = new Query(self::$curl);
+        $r = $q->get("SELECT LeadSource, COUNT(Name) c FROM Lead GROUP BY LeadSource");
+        $u = $r->getRecords()[0];
+        self::assertIsNumeric($u->c);
+    }
+
+    public function testExplain(): void
+    {
+        $q = new Query(self::$curl);
+        $r = $q->explain("SELECT LeadSource, COUNT(Name) c FROM Lead GROUP BY LeadSource");
+
+        self::assertEquals('SELECT LeadSource, COUNT(Name) c FROM Lead GROUP BY LeadSource', $r->sourceQuery);
+        self::assertIsArray($r->plans);
     }
 }
