@@ -13,7 +13,8 @@ class ApiRequests extends MaxRemaining
     {
         parent::__construct($res);
 
-        foreach ($res as $k => $v) {
+        $asArray = get_object_vars($res);
+        foreach ($asArray as $k => $v) {
             if ($k === 'Max' || $k === 'Remaining') {
                 continue;
             }
